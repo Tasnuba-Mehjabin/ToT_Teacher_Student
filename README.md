@@ -15,7 +15,7 @@ Implementation of the Tree-of-Thoughts teacher, linearizer and small-language-mo
 <sub>\* Implemented the code and ran the experiments in this repository.</sub>
 
 
-<sub>Dept. of CSE, BRAC University, Dhaka, Bangladesh &nbsp;|&nbsp; Mubtasim Kamal Dihan: Dept. of CSE, Islamic University of Technology, Dhaka, Bangladesh</sub>
+<sub>Dept. of CSE, BRAC University, Dhaka, Bangladesh &nbsp;|&nbsp; Dept. of CSE, Islamic University of Technology, Dhaka, Bangladesh</sub>
 
 <p align="center">
   <img src="assets/pipeline.svg" alt="Animated overview: a ToT teacher searches a tree, a linearizer flattens it into one trace, and a small student learns to reason with backtracking in one pass" width="100%"/>
