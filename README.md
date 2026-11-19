@@ -194,7 +194,7 @@ drive.mount('/content/drive')
 ```bibtex
 @inproceedings{mehjabin2026totdistill,
   title     = {Distilling Tree-of-Thought Reasoning into Small Language Models via Prompt-Guided Imitation},
-  author    = {Mehjabin, Tasnuba and Zaman, Shah Faiyaz and Miraz, and Dihan, Mubtasim Kamal MD Mahmudun Nur and Mostakim, Moin},
+  author    = {Mehjabin, Tasnuba and Zaman, Shah Faiyaz and Miraz, and Dihan, Mubtasim Kamal, and MD Mahmudun Nur and Mostakim, Moin},
   year      = {2026}
 }
 ```
