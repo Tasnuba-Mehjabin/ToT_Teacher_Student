@@ -10,7 +10,7 @@ Implementation of the Tree-of-Thoughts teacher, linearizer and small-language-mo
 
 ### [Distilling Tree-of-Thought Reasoning into Small Language Models via Prompt-Guided Imitation](https://YOUR-PAPER-LINK)
 
-[Tasnuba Mehjabin](https://github.com/Tasnuba-Mehjabin)\*, [Shah Faiyaz Zaman](https://github.com/TheLubricator), [MD Mahmudun Nur Miraz](https://github.com/mrznur/ToT_0.1), [Mubtasim Kamal Dihan](https://scholar.google.com/citations?user=N-H7DqwAAAAJ&hl=en), [Moin Mostakim](https://scholar.google.com/citations?user=sEMT2WgAAAAJ&hl=en)
+[Tasnuba Mehjabin](https://github.com/Tasnuba-Mehjabin)\*, [Shah Faiyaz Zaman](https://github.com/TheLubricator), [Mubtasim Kamal Dihan](https://scholar.google.com/citations?user=N-H7DqwAAAAJ&hl=en), [MD Mahmudun Nur Miraz](https://github.com/mrznur/ToT_0.1), [Moin Mostakim](https://scholar.google.com/citations?user=sEMT2WgAAAAJ&hl=en)
 
 <sub>Dept. of CSE, BRAC University, Dhaka, Bangladesh &nbsp;|&nbsp; Dept. of CSE, Islamic University of Technology, Dhaka, Bangladesh</sub>
 
@@ -194,7 +194,7 @@ drive.mount('/content/drive')
 ```bibtex
 @inproceedings{mehjabin2026totdistill,
   title     = {Distilling Tree-of-Thought Reasoning into Small Language Models via Prompt-Guided Imitation},
-  author    = {Mehjabin, Tasnuba and Zaman, Shah Faiyaz and Miraz, MD Mahmudun Nur and Dihan, Mubtasim Kamal and Mostakim, Moin},
+  author    = {Mehjabin, Tasnuba and Zaman, Shah Faiyaz and Miraz, and Dihan, Mubtasim Kamal MD Mahmudun Nur and Mostakim, Moin},
   year      = {2026}
 }
 ```
