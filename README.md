@@ -33,24 +33,39 @@ Our teacher-student framework, evaluated on the **Game of 24**, has three stages
 3. **Student.** Qwen2.5-0.5B-Instruct is fully fine-tuned on these traces and solves puzzles in a single pass.
 
 ```mermaid
-flowchart LR
-    A["Game of 24 puzzle<br/>4 numbers"] --> B
+flowchart TB
+    S["State<br/>e.g. [1, 4, 9, 13]"]:::state
+    PP[/"Propose Prompt"/]:::llm
+    P["1. Propose<br/>LLM proposes moves as code"]:::llm
+    E["2. Execute Code<br/>verify new states"]:::code
+    G{"3. Dead-end gate<br/>drop known failure"}:::mem
+    Q{"State has max<br/>2 numbers?"}:::mem
+    VP[/"Value Prompt<br/>+ critique"/]:::llm
+    V["4. Evaluate<br/>vote 3x, calculate score"]:::llm
+    B["5. Beam top-5<br/>keep best states globally"]:::code
+    D[("Dead-end<br/>database")]:::mem
+    DONE(["State = 24<br/>solved"]):::state
 
-    subgraph B["Stage 1: ToT Teacher (DeepSeek V4 Flash)"]
-        direction TB
-        B1["Propose moves<br/>(CodeAct)"] --> B2["Execute / Verify<br/>(plain Python)"]
-        B2 --> B3["Evaluate state<br/>(sure / likely / impossible)"]
-        B3 --> B4["Beam select<br/>(top-5)"]
-        B4 -.->|"next depth"| B1
-        M[("Dead-end<br/>memory")] <-.-> B2
-        M <-.-> B3
-    end
+    S --> P
+    PP --> P
+    P --> E --> G
+    G -- "not a dead end" --> V
+    G -- "dead end" --> Q
+    Q -- "yes: discard, store 2-number pattern" --> D
+    Q -- "no: append critique" --> VP --> V
+    V --> B
+    B -- "store bad-state pattern" --> D
+    D -. "lookup" .-> G
+    B -- "len > 1 and state != 24: next round" --> S
+    B -- "state = 24" --> DONE
 
-    B --> C["Stage 2: Linearizer<br/>winning path + spliced<br/>backtracks"]
-    C --> D[("Linearized<br/>training data")]
-    D --> E["Stage 3: Fine-tune<br/>Qwen2.5-0.5B-Instruct"]
-    E --> F["One-pass inference<br/>no tree search"]
+    classDef llm fill:#7c3aed,stroke:#5b21b6,color:#fff
+    classDef code fill:#0f9d9a,stroke:#0b6e6c,color:#fff
+    classDef mem fill:#c99a06,stroke:#8a6a04,color:#fff
+    classDef state fill:#6b7280,stroke:#374151,color:#fff
 ```
+
+<sub>🟣 LLM-dependent step &nbsp; 🟢 deterministic Python &nbsp; 🟡 dead-end memory</sub>
 
 ## Method
 
@@ -59,6 +74,13 @@ flowchart LR
 - **Execute and verify (CodeAct):** plain Python hard-prunes duplicate states and proves 2-number dead ends, with no LLM call.
 - **Evaluate:** the LLM rates each state three times at temperature 0 (`sure = 1.0`, `likely = 0.6`, `impossible = 0.001`); the mean is the state value.
 - **Dead-end memory:** stores unsolvable states. For 3-number states it matches failure patterns within a tolerance of 0.15 and trusts a pattern only after at least two distinct puzzle failures.
+- **Dead-end memory variants compared**
+
+| Variant | Behavior | Outcome |
+|---------|----------|---------|
+| Revert | Lightest pruning; skips only impossible 2-number pairs | Closest to human reasoning, but slowest and most expensive |
+| 3D-DEM | Aggressive: discards a 3-number state matching a past failure before any LLM call | Fast, but less authentic search |
+| **Patch (chosen)** | Hard skip only for 2-number states; 3-number matches get a warning hint and the LLM still judges | Balanced compromise, used for the final teacher |
 - **Beam search:** global beam of width 5.
 > **Why DeepSeek?** We first tried Gemma-4-31B-it in thinking mode as the teacher, but it ignored instructions, looped on the same number, and produced garbage text. DeepSeek V4 Flash in non-thinking mode followed the search protocol reliably, so all later stages use DeepSeek traces only.
 
