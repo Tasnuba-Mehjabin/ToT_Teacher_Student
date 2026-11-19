@@ -12,9 +12,6 @@ Implementation of the Tree-of-Thoughts teacher, linearizer and small-language-mo
 
 [Tasnuba Mehjabin](https://github.com/Tasnuba-Mehjabin)\*, [Shah Faiyaz Zaman](https://github.com/TheLubricator), [MD Mahmudun Nur Miraz](https://github.com/mrznur/ToT_0.1), [Mubtasim Kamal Dihan](https://scholar.google.com/citations?user=N-H7DqwAAAAJ&hl=en), [Moin Mostakim](https://scholar.google.com/citations?user=sEMT2WgAAAAJ&hl=en)
 
-<sub>\* Implemented the code and ran the experiments in this repository.</sub>
-
-
 <sub>Dept. of CSE, BRAC University, Dhaka, Bangladesh &nbsp;|&nbsp; Dept. of CSE, Islamic University of Technology, Dhaka, Bangladesh</sub>
 
 <p align="center">
