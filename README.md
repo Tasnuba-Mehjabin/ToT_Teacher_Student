@@ -33,39 +33,28 @@ Our teacher-student framework, evaluated on the **Game of 24**, has three stages
 3. **Student.** Qwen2.5-0.5B-Instruct is fully fine-tuned on these traces and solves puzzles in a single pass.
 
 ```mermaid
-flowchart TB
-    S["State<br/>e.g. [1, 4, 9, 13]"]:::state
-    PP[/"Propose Prompt"/]:::llm
-    P["1. Propose<br/>LLM proposes moves as code"]:::llm
-    E["2. Execute Code<br/>verify new states"]:::code
-    G{"3. Dead-end gate<br/>drop known failure"}:::mem
-    Q{"State has max<br/>2 numbers?"}:::mem
-    VP[/"Value Prompt<br/>+ critique"/]:::llm
-    V["4. Evaluate<br/>vote 3x, calculate score"]:::llm
-    B["5. Beam top-5<br/>keep best states globally"]:::code
-    D[("Dead-end<br/>database")]:::mem
-    DONE(["State = 24<br/>solved"]):::state
+flowchart LR
+    A["Game of 24 puzzle<br/>4 numbers"] --> T
 
-    S --> P
-    PP --> P
-    P --> E --> G
-    G -- "not a dead end" --> V
-    G -- "dead end" --> Q
-    Q -- "yes: discard, store 2-number pattern" --> D
-    Q -- "no: append critique" --> VP --> V
-    V --> B
-    B -- "store bad-state pattern" --> D
-    D -. "lookup" .-> G
-    B -- "len > 1 and state != 24: next round" --> S
-    B -- "state = 24" --> DONE
+    subgraph T["Stage 1: ToT Teacher (DeepSeek V4 Flash)"]
+        direction TB
+        P["1. Propose<br/>LLM proposes moves as code"] --> E["2. Execute Code<br/>verify new states (plain Python)"]
+        E --> G{"3. Dead-end gate<br/>known failure?"}
+        G -- "not a dead end" --> V["4. Evaluate<br/>vote 3x, calculate score"]
+        G -- "dead end" --> Q{"State has max<br/>2 numbers?"}
+        Q -- "yes: discard" --> M[("Dead-end<br/>memory")]
+        Q -- "no: add warning hint" --> V
+        V --> B["5. Beam select<br/>keep top-5 states globally"]
+        B -- "store bad-state pattern" --> M
+        M -. "lookup" .-> G
+        B -. "next round" .-> P
+    end
 
-    classDef llm fill:#7c3aed,stroke:#5b21b6,color:#fff
-    classDef code fill:#0f9d9a,stroke:#0b6e6c,color:#fff
-    classDef mem fill:#c99a06,stroke:#8a6a04,color:#fff
-    classDef state fill:#6b7280,stroke:#374151,color:#fff
+    T -- "solved trees" --> C["Stage 2: Linearizer<br/>winning path + spliced backtracks"]
+    C --> D[("Linearized<br/>training data")]
+    D --> F["Stage 3: Fine-tune<br/>Qwen2.5-0.5B-Instruct"]
+    F --> O["One-pass inference<br/>no tree search"]
 ```
-
-<sub>🟣 LLM-dependent step &nbsp; 🟢 deterministic Python &nbsp; 🟡 dead-end memory</sub>
 
 ## Method
 
