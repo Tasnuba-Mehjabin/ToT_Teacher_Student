@@ -60,6 +60,7 @@ flowchart LR
 - **Evaluate:** the LLM rates each state three times at temperature 0 (`sure = 1.0`, `likely = 0.6`, `impossible = 0.001`); the mean is the state value.
 - **Dead-end memory:** stores unsolvable states. For 3-number states it matches failure patterns within a tolerance of 0.15 and trusts a pattern only after at least two distinct puzzle failures.
 - **Beam search:** global beam of width 5.
+> **Why DeepSeek?** We first tried Gemma-4-31B-it in thinking mode as the teacher, but it ignored instructions, looped on the same number, and produced garbage text. DeepSeek V4 Flash in non-thinking mode followed the search protocol reliably, so all later stages use DeepSeek traces only.
 
 **Stage 2: One-step linearization**
 - The solution path is extracted from executable code, not model wording, using a pool of `(value, expression)` pairs so equal values (for example `1+1` and `6-4`) are never confused.
