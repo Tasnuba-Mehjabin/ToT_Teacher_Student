@@ -65,7 +65,7 @@ flowchart LR
 - **Execute and verify (CodeAct):** plain Python hard-prunes duplicate states and proves 2-number dead ends, with no LLM call.
 - **Evaluate:** the LLM rates each state three times at temperature 0 (`sure = 1.0`, `likely = 0.6`, `impossible = 0.001`); the mean is the state value.
 - **Dead-end memory:** stores unsolvable states. For 3-number states it matches failure patterns within a tolerance of 0.15 and trusts a pattern only after at least two distinct puzzle failures.
-  **Dead-end memory variants compared**
+- **Dead-end memory variants compared**
 
 | Variant | Behavior | Outcome |
 |---------|----------|---------|
