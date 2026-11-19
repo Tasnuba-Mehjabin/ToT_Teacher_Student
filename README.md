@@ -10,10 +10,11 @@ Implementation of the Tree-of-Thoughts teacher, linearizer and small-language-mo
 
 ### [Distilling Tree-of-Thought Reasoning into Small Language Models via Prompt-Guided Imitation](https://YOUR-PAPER-LINK)
 
-[Tasnuba Mehjabin](https://github.com/YOUR-USERNAME)\*, [Shah Faiyaz Zaman](https://github.com/YOUR-USERNAME)\*, [MD Mahmudun Nur Miraz](https://github.com/YOUR-USERNAME), [Mubtasim Kamal Dihan](https://github.com/YOUR-USERNAME), [Moin Mostakim](https://github.com/YOUR-USERNAME)
+[Tasnuba Mehjabin](https://github.com/Tasnuba-Mehjabin)\*, [Shah Faiyaz Zaman](https://github.com/TheLubricator), [MD Mahmudun Nur Miraz](https://github.com/mrznur/ToT_0.1), [Mubtasim Kamal Dihan](https://scholar.google.com/citations?user=N-H7DqwAAAAJ&hl=en), [Moin Mostakim](https://scholar.google.com/citations?user=sEMT2WgAAAAJ&hl=en)
 
-<sub>\* Equal contribution. The first and second authors implemented the code and ran the experiments in this repository.</sub>
-<br>
+<sub>\* Implemented the code and ran the experiments in this repository.</sub>
+
+
 <sub>Dept. of CSE, BRAC University, Dhaka, Bangladesh &nbsp;|&nbsp; Mubtasim Kamal Dihan: Dept. of CSE, Islamic University of Technology, Dhaka, Bangladesh</sub>
 
 <p align="center">
