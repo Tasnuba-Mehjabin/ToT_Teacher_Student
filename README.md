@@ -29,6 +29,8 @@ We ask: **can a full multi-step ToT search, including its failed branches, be tu
 Our teacher-student framework, evaluated on the **Game of 24**, has three stages:
 
 1. **Teacher.** DeepSeek V4 Flash (non-thinking mode) runs a real ToT search. Every move is proposed as executable Python (CodeAct), verified by code, scored, and pruned with a **dead-end memory**.
+> **Why DeepSeek?** We first tried Gemma-4-31B-it in thinking mode as the teacher, but it ignored instructions, looped on the same number, and produced garbage text. DeepSeek V4 Flash in non-thinking mode followed the search protocol reliably, so all later stages use DeepSeek traces only.
+
 2. **Linearizer.** Each solved tree becomes a single sequence: the winning path, with abandoned sibling branches spliced in as explicit `Backtrack (to: ...)` steps.
 3. **Student.** Qwen2.5-0.5B-Instruct is fully fine-tuned on these traces and solves puzzles in a single pass.
 
@@ -63,7 +65,7 @@ flowchart LR
 - **Execute and verify (CodeAct):** plain Python hard-prunes duplicate states and proves 2-number dead ends, with no LLM call.
 - **Evaluate:** the LLM rates each state three times at temperature 0 (`sure = 1.0`, `likely = 0.6`, `impossible = 0.001`); the mean is the state value.
 - **Dead-end memory:** stores unsolvable states. For 3-number states it matches failure patterns within a tolerance of 0.15 and trusts a pattern only after at least two distinct puzzle failures.
-- **Dead-end memory variants compared**
+  **Dead-end memory variants compared**
 
 | Variant | Behavior | Outcome |
 |---------|----------|---------|
@@ -71,7 +73,6 @@ flowchart LR
 | 3D-DEM | Aggressive: discards a 3-number state matching a past failure before any LLM call | Fast, but less authentic search |
 | **Patch (chosen)** | Hard skip only for 2-number states; 3-number matches get a warning hint and the LLM still judges | Balanced compromise, used for the final teacher |
 - **Beam search:** global beam of width 5.
-> **Why DeepSeek?** We first tried Gemma-4-31B-it in thinking mode as the teacher, but it ignored instructions, looped on the same number, and produced garbage text. DeepSeek V4 Flash in non-thinking mode followed the search protocol reliably, so all later stages use DeepSeek traces only.
 
 **Stage 2: One-step linearization**
 - The solution path is extracted from executable code, not model wording, using a pool of `(value, expression)` pairs so equal values (for example `1+1` and `6-4`) are never confused.
