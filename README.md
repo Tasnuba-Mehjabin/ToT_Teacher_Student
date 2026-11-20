@@ -90,7 +90,7 @@ Evaluated on the **100 held-out puzzles ranked 901-1000** on 4nums.com (none app
 
 | Model | Training data | Solved (/100) | 95% CI (%) |
 |-------|---------------|:-------------:|:----------:|
-| **DeepSeek V4 Flash multi-step ToT teacher (ours)** | n/a | **89** | 81.4 - 93.7 |
+| **DeepSeek V4 Flash multi-step ToT teacher (ours)** | Not trained (frozen). Run on ranks 1-900 → 807 verified trees (ranks 1-500 → 446) | **89** | 81.4 - 93.7 |
 | **Qwen2.5-0.5B, augmented (ours)** | Ranks 1-900 (2,690 examples) | **21** | 14.2 - 30.0 |
 | Qwen2.5-0.5B, augmented (ours) | Ranks 1-500 (1,487 examples) | 19 | 12.5 - 27.8 |
 | Qwen2.5-0.5B, clean-only (ours) | Ranks 1-900 (807 examples) | 12 | 7.0 - 19.8 |
